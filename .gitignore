@@ -1,0 +1,22 @@
+/Results/*
+/ResultsGeneral/*
+/Results_medicine/*
+
+# Data files outside the data/ folder
+/*.txt
+/*.csv
+/*.json
+/*.dat
+/*.log
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+#Downsampling
+data/*
+Results/*
