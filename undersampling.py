@@ -34,7 +34,7 @@ def perform_under(**kwargs):
     approach = opf_us_obj.__class__.__name__
     
     opf_us_obj.saveDataset(X_res, y_res, pathDataset, approach)
-    opf_us_obj.saveResults(X_res, y_res, X_test, y_test, ds, f, approach, minority_class, end_time)
+    opf_us_obj.saveResults(X_res, y_res, X_test, y_test, ds, f, approach, minority_class, end_time, 'Results')
 
 
 datasets = ['vertebral_column']
@@ -77,17 +77,17 @@ for dsds in range(len(datasets)):
             os.makedirs(pathDataset)   
 
 
-        #main approach: remove samples from majoritary class until balancing the dataset
+        #main approach: remove samples from majority class until balancing the dataset
         perform_under(us_obj=opf_us, output=output, X=X, y=Y, X_test=X_test, y_test=Y_test,
                       fold=f, ds=ds, majority_class=majority_class, minority_class=minority_class, 
                       exec_time=end_time)                     
         
-        #1st variant: remove samples from majoritary class with negative scores  
+        #1st variant: remove samples from majority class with negative scores  
         perform_under(us_obj=opf_us1, output=output, X=X, y=Y, X_test=X_test, y_test=Y_test,
                       fold=f, ds=ds, majority_class=majority_class, minority_class=minority_class, 
                       exec_time=end_time)
 
-       #2st variant: remove samples from majoritary class with negative or zero scores
+       #2st variant: remove samples from majority class with negative or zero scores
         perform_under(us_obj=opf_us2, output=output, X=X, y=Y, X_test=X_test, y_test=Y_test,
                       fold=f, ds=ds, majority_class=majority_class, minority_class=minority_class, 
                       exec_time=end_time)
@@ -97,7 +97,7 @@ for dsds in range(len(datasets)):
                       fold=f, ds=ds, majority_class=majority_class, minority_class=minority_class, 
                       exec_time=end_time)
         
-        #4st variant: remove samples from majoritary class with negative or zero scores 
+        #4st variant: remove samples from majority class with negative or zero scores 
         perform_under(us_obj=opf_us4, output=output, X=X, y=Y, X_test=X_test, y_test=Y_test,
                       fold=f, ds=ds, majority_class=majority_class, minority_class=minority_class, 
                       exec_time=end_time)        
