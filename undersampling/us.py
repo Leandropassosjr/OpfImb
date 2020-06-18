@@ -13,7 +13,6 @@ class US(metaclass=abc.ABCMeta):
 
     def __init__(self):
         self.opfSup = SupervisedOPF(distance='log_squared_euclidean', pre_computed_distance=None)
-        self.path_output = 'ResultsGeneral'
 
     def __classify(self, x_train,y_train, x_valid, y_valid, minority_class):
         # Training the OPF                
@@ -99,9 +98,9 @@ class US(metaclass=abc.ABCMeta):
 
         return output, majority_class, minority_class
     
-    def saveResults(self, X_train,Y_train, X_test, Y_test,  ds,f, approach, minority_class, exec_time):
+    def saveResults(self, X_train,Y_train, X_test, Y_test,  ds,f, approach, minority_class, exec_time, path_output):
 
-        path = '{}/down_{}/{}/{}'.format(self.path_output,approach,ds,f)
+        path = '{}/down_{}/{}/{}'.format(path_output,approach,ds,f)
         if not os.path.exists(path):
             os.makedirs(path)
 
