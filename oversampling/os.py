@@ -1,47 +1,29 @@
 from typing import List, Tuple, Dict, Optional
 from collections import defaultdict
+from collections import Counter
+from sklearn.utils import shuffle
 
 import os
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_blobs
-from sklearn.metrics import accuracy_score, recall_score, f1_score
 import sys
 import abc
 
 sys.path.append('..')
 from opf.models.unsupervised import UnsupervisedOPF
-from opf.models.supervised import SupervisedOPF
-
 
 from oversampling.core.gp import GaussianParams
 from oversampling.core import estimation
 from oversampling.core import generation
-
-
+from oversampling.core import arrays
 
 CLUSTER_MIN_SIZE = 2
 
 
 class OS(metaclass=abc.ABCMeta):
 	def __init__(self):
-		self.opfSup = SupervisedOPF(distance='log_squared_euclidean', pre_computed_distance=None)
-
-
-	def __classify(self, x_train,y_train, x_valid, y_valid, minority_class):
-		# Training the OPF                
-		indexes = np.arange(len(x_train))
-		self.opfSup.fit(x_train, y_train,indexes)
-
-		# Prediction of the validation samples
-		y_pred,_ = self.opfSup.predict(x_valid)
-		y_pred = np.array(y_pred)
-		
-		# Validation measures for this k nearest neighbors
-		accuracy = accuracy_score(y_valid, y_pred)
-		recall = recall_score(y_valid, y_pred, pos_label=minority_class) # assuming that 2 is the minority class
-		f1 = f1_score(y_valid, y_pred, pos_label=minority_class)
-		return accuracy, recall, f1, y_pred
+		self.min_class_label = None
 
 	def run(self,
 			X: np.ndarray,
@@ -123,27 +105,34 @@ class OS(metaclass=abc.ABCMeta):
 
 		return new_samples
 
-	def saveResults(self, X_train,Y_train, X_test, Y_test,  ds,f, approach, minority_class, exec_time, path_output):
+	def splitMinorityDataset(self, X, y):
+		label_freq = Counter(y)
+		min_label, min_freq = label_freq.most_common()[-1]
+		_, max_freq = label_freq.most_common()[0]
 
-		path = '{}/{}/{}/{}'.format(path_output,approach,ds,f)
-		if not os.path.exists(path):
-			os.makedirs(path)
+		# Split minority from majority classes
+		min_x, min_y, max_x, max_y = arrays.separate(X, y, min_label)
 
-		results_print=[]
-		accuracy, recall, f1, pred = self.__classify(X_train,Y_train, X_test, Y_test, minority_class)
-		results_print.append([0,accuracy, recall, f1, exec_time])
+		# Oversample
+		min_x, min_y = shuffle(min_x, min_y)
+		n_new_samples = max_freq - min_freq
+		return min_x, min_y, max_x, max_y, min_label, n_new_samples
 
-		np.savetxt('{}/pred.txt'.format(path), pred, fmt='%d')
-		np.savetxt('{}/results.txt'.format(path), results_print, fmt='%d,%.5f,%.5f,%.5f,%.5f')
 
-	def saveDataset(self, X_train,Y_train, pathDataset,approach):
-		DS = np.insert(X_train,len(X_train[0]),Y_train , axis=1)
-		np.savetxt('{}/train_{}.txt'.format(pathDataset, approach),DS,  fmt='%.5f,'*(len(X_train[0]))+'%d')    
+	def concatenate(self, min_x, min_y, max_x, max_y, synth_x, min_label):
+		# Make a list of ndarrays into a single ndarray
+		synth_x = np.concatenate(synth_x)
+
+		# Concatenate
+		over_x, over_y = arrays.join_synth(min_x, min_y, synth_x, min_label)
+		all_x, all_y = arrays.concat_shuffle([max_x, over_x], [max_y, over_y])
+		return all_x, all_y
+
+	def fit_resample(self, X, y, k_max):
+		min_x, min_y, max_x, max_y, self.min_class_label, n_new_samples = self.splitMinorityDataset( X, y)
+		synth_x = self.variant(min_x, n_new_samples, k_max)
+		return self.concatenate(min_x, min_y, max_x, max_y, synth_x, self.min_class_label)
 
 	@abc.abstractmethod
 	def variant(self, output, X, Y,  majority_class, minority_class):
-		return
-
-	@abc.abstractmethod
-	def fit_resample(self, X, y):
 		return
