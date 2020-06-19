@@ -10,32 +10,33 @@ sys.path.append('..')
 
 from undersampling.opf_us2 import OpfUS2
 from oversampling.o2pf import O2PF
+from oversampling.core import arrays
+from collections import Counter
 
-import numpy as np
-
-class US1O2pf:
+class US2O2pf:
     def __init__(self, k_max):
         self.k_max = k_max
         '''
         '''
     
     def fit_resample(self, X, y):
-        opf_us1 = OpfUS2()
-        o2pf = O2PF()
+        opf_us2 = OpfUS2()
+        o2pf_ = O2PF()
         
-        # Counting the number of samples in each class
-        (uniques, frequency) = np.unique(y, return_counts=True)        
+        label_freq = Counter(y)
+        min_label, min_freq = label_freq.most_common()[-1]
+        _, max_freq = label_freq.most_common()[0]
         
-        # Indices of the minority and majority classes
-        idx_min = np.argmin(frequency)
-        idx_max = np.argmax(frequency)
+        # Split minority from majority classes
+        min_x, min_y, max_x, max_y = arrays.separate(X, y, min_label)        
         
-        # Number of samples 
-        minority_class, majority_class = uniques[idx_min], uniques[idx_max]
+        n_samples_generate = max_freq - min_freq
         
-        n_samples_generate = majority_class - minority_class
+        X_res, y_res = opf_us2.fit_resample(X, y) # Undersampling
+        X_res_synth = o2pf_.fit_resample(X_res, n_samples_generate, self.k_max) # Oversampling
+    
+        # Concatenate
+        over_x, over_y = arrays.join_synth(min_x, min_y, X_res_synth, min_label)
+        all_x, all_y = arrays.concat_shuffle([max_x, over_x], [max_y, over_y])        
         
-        X_res, y_res = opf_us1.fit_resample(X, y) # Undersampling
-        X_res, y_res = o2pf.fit_resample(X_res, n_samples_generate, self.k_max) # Oversampling
-        
-        return X_res, y_res
+        return all_x, all_y

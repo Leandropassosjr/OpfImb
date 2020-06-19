@@ -4,13 +4,6 @@ Created on Tue Jun  9 17:14:53 2020
 
 @author: DANILO
 """
-
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jun  9 15:10:02 2020
-
-@author: DANILO
-"""
 from undersampling.us import US
 import numpy as np
 

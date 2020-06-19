@@ -18,5 +18,5 @@ class O2PF(OS):
 		return self.computeVariant(clf, cluster2samples, X, generate_n,estimation.mean_gaussian,generation.sampling)
 
 	def fit_resample(self, X, generate_n, max_k):
-		X_res, y_res = self.variant(X, generate_n, max_k)
-		return X_res, y_res
+		X_res = self.variant(X, generate_n, max_k)
+		return np.vstack(X_res)
