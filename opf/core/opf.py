@@ -10,9 +10,6 @@ import opf.utils.logging as l
 from opf.core.heap import Heap
 from opf.core.subgraph import Subgraph
 
-logger = l.get_logger(__name__)
-
-
 class OPF:
     """A basic class to define all common OPF-related methods.
 
@@ -30,7 +27,6 @@ class OPF:
 
         """
 
-        logger.info('Creating class: OPF.')
 
         # Initializing an empty subgraph
         self.subgraph = None
@@ -56,10 +52,6 @@ class OPF:
 
             # Marks the pre-distances property as None
             self.pre_distances = None
-
-        logger.debug(
-            f'Distance: {self.distance} | Pre-computed distance: {self.pre_computed_distance}.')
-        logger.info('Class created.')
 
     @property
     def subgraph(self):
@@ -149,8 +141,6 @@ class OPF:
 
         """
 
-        logger.debug('Running private method: read_distances().')
-
         # Getting file extension
         extension = file_path.split('.')[-1]
 
@@ -186,8 +176,6 @@ class OPF:
 
         """
 
-        logger.info(f'Loading model from file: {file_name} ...')
-
         # Trying to open the file
         with open(file_name, "rb") as origin_file:
             # Loading model from file
@@ -196,7 +184,6 @@ class OPF:
             # Updating all values
             self.__dict__.update(opf.__dict__)
 
-        logger.info('Model loaded.')
 
     def save(self, file_name):
         """Saves the object to a pickle encoding.
@@ -206,14 +193,10 @@ class OPF:
 
         """
 
-        logger.info(f'Saving model to file: {file_name} ...')
-
         # Opening a destination file
         with open(file_name, 'wb') as dest_file:
             # Dumping model to file
             pickle.dump(self, dest_file)
-
-        logger.info('Model saved.')
 
     def fit(self, X, Y):
         """Fits data in the classifier.
