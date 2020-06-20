@@ -12,8 +12,8 @@ train = np.loadtxt(sys.argv[1],delimiter=',', dtype=np.float32)
 X = train[:,:-1]
 y = train[:,-1].astype(int)
 
-o2pf = O2PF()
-X_res, y_res = o2pf.fit_resample( X, y, int(sys.argv[2]))
+o2pf = O2PF(k_max=int(sys.argv[2]))
+X_res, y_res = o2pf.fit_resample(X, y)
 
 path = 'data'
 common = COMMON()
