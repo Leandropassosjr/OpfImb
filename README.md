@@ -13,6 +13,7 @@ Overampling:
  - O2PF_WI: O2PF Weight Interpolation.
 
 Undersampling:
+ - OPF-US: represents the standard Undersampling Optimum-Path Forest method. Removes low-ranked samples from majority class until the dataset is balanced;
  - OPF-US1: removes samples from the majority class with negative scores;
  - OPF-US2: removes samples from the majority class with scores lower or equal to zero;
  - OPF-US3: removes all samples with negative scores.
@@ -21,3 +22,14 @@ Besides the above-mentioned methods, OPFImb provides three hybrid approaches tha
  - OPF-US1-O2PF: undersampling by using OPF-US1 followed by oversampling performed by O2PF;
  - OPF-US2-O2PF: undersampling by using OPF-US2 followed by oversampling performed by O2PF;
  - OPF-US3-O2PF: undersampling by using OPF-US3 followed by oversampling performed by O2PF.
+
+Examples:
+ - Overampling;
+ 	- python oversampling.py
+ 	- python oversampling_example_simple.py data/vertebral_column/1/train.txt 20
+ - Undersampling;
+ 	- python undersampling.py
+ 	- python undersampling_example_simple.py data/vertebral_column/1/train.txt data/vertebral_column/1/valid.txt
+ - Hybrid;
+ 	- python hybrid.py;
+ 	- python hybrid_example_simple.py data/vertebral_column/1/train.txt 20 data/vertebral_column/1/valid.txt
