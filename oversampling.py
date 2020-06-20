@@ -21,10 +21,9 @@ def perform_over(**kwargs):
 	y_test = kwargs['y_test']
 	ds = kwargs['ds']
 	f = kwargs['f']
-	k_max = kwargs['k_max']
 
 	start_time = time()
-	all_x, all_y = o2pf_obj.fit_resample( X, y, k_max)
+	all_x, all_y = o2pf_obj.fit_resample( X, y)
 	end_time = time() -start_time
 
 	approach = o2pf_obj.__class__.__name__
@@ -44,7 +43,7 @@ k_max = 5
 
 
 # Objects for undersampling
-o2pf = O2PF()
+o2pf = O2PF(k_max=k_max)
 o2pf_ri = O2PF_RI()
 o2pf_mi = O2PF_MI()
 o2pf_p = O2PF_P()
@@ -70,20 +69,20 @@ for dsds in range(len(datasets)):
 
         #main approach: generate samples from minority class until balancing the dataset
 		perform_over(o2pf_obj = o2pf, X = X,y = y, X_test = X_test, y_test = y_test,
-			ds = ds, f = f, k_max=k_max)
+			ds = ds, f = f)
 
 		#o2pf_ri approach: 
 		perform_over(o2pf_obj = o2pf_ri,  X = X,y = y, X_test = X_test, y_test = y_test,
-			ds = ds, f = f, k_max=k_max)
+			ds = ds, f = f)
 
 		#o2pf_mi approach: 
 		perform_over(o2pf_obj = o2pf_mi, X = X,y = y, X_test = X_test, y_test = y_test,
-			ds = ds, f = f, k_max=k_max)
+			ds = ds, f = f)
 
 		#o2pf_p approach: 
 		perform_over(o2pf_obj = o2pf_p,  X = X,y = y, X_test = X_test, y_test = y_test,
-			ds = ds, f = f, k_max=k_max)
+			ds = ds, f = f)
 
 		#o2pf_wi approach: 
 		perform_over(o2pf_obj = o2pf_wi,  X = X,y = y, X_test = X_test, y_test = y_test,
-			ds = ds, f = f, k_max=k_max)
+			ds = ds, f = f)

@@ -33,3 +33,9 @@ Examples:
  - Hybrid;
  	- python hybrid.py;
  	- python hybrid_example_simple.py data/vertebral_column/1/train.txt 20 data/vertebral_column/1/valid.txt
+
+OPF code inspired in the OPFYTHON lib:
+ - https://github.com/gugarosa/opfython
+
+Paper describing the code:
+ - Handling Imbalanced Datasets Through Optimum-Path Forest (Submitted to journal TPAMI).
