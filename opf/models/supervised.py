@@ -13,8 +13,6 @@ from opf.core.opf import OPF
 
 from opf.core.subgraph import Subgraph
 
-logger = l.get_logger(__name__)
-
 
 class SupervisedOPF(OPF):
     """A SupervisedOPF which implements the supervised version of OPF classifier.
@@ -33,20 +31,16 @@ class SupervisedOPF(OPF):
 
         """
 
-        logger.info('Overriding class: OPF -> SupervisedOPF.')
-
         # Override its parent class with the receiving arguments
         super(SupervisedOPF, self).__init__(
             distance=distance, pre_computed_distance=pre_computed_distance)
 
-        logger.info('Class overrided.')
 
     def _find_prototypes(self):
         """Find prototype nodes using the Minimum Spanning Tree (MST) approach.
 
         """
 
-        logger.debug('Finding prototypes ...')
 
         # Creating a Heap of size equals to number of nodes
         h = Heap(self.subgraph.n_nodes)
@@ -117,7 +111,6 @@ class SupervisedOPF(OPF):
                             # Updates the arc on the heap
                             h.update(q, weight)
 
-        logger.debug(f'Prototypes: {prototypes}.')
 
     def fit(self, X_train, Y_train, idx_train):
         """Fits data in the classifier.
@@ -127,8 +120,6 @@ class SupervisedOPF(OPF):
             Y_train (np.array): Array of training labels.
 
         """
-
-        logger.info('Fitting classifier ...')
 
         # Initializing the timer
         start = time.time()
@@ -223,9 +214,6 @@ class SupervisedOPF(OPF):
         # Calculating training task time
         train_time = end - start
 
-        logger.info('Classifier has been fitted.')
-        logger.info(f'Training time: {train_time} seconds.')
-
     def predict(self, X_val):
         """Predicts new data using the pre-trained classifier.
 
@@ -246,8 +234,6 @@ class SupervisedOPF(OPF):
         if not self.subgraph.trained:
             # If not, raises an BuildError
             raise e.BuildError('Classifier has not been properly fitted')
-
-        logger.info('Predicting data ...')
 
         # Initializing the timer
         start = time.time()
@@ -349,8 +335,6 @@ class SupervisedOPF(OPF):
         # Calculating prediction task time
         predict_time = end - start
 
-        logger.info('Data has been predicted.')
-        logger.info(f'Prediction time: {predict_time} seconds.')
 
         return preds, conqs 
 
@@ -366,7 +350,6 @@ class SupervisedOPF(OPF):
 
         """
 
-        logger.info('Learning the best classifier ...')
 
         # Defines the maximum accuracy
         max_acc = 0
@@ -379,7 +362,6 @@ class SupervisedOPF(OPF):
 
         # An always true loop
         while True:
-            logger.info(f'Running iteration {t+1}/{n_iterations} ...')
 
             # Fits training data into the classifier
             self.fit(X_train, Y_train)
@@ -450,16 +432,11 @@ class SupervisedOPF(OPF):
             # Incrementing the counter
             t += 1
 
-            logger.info(
-                f'Accuracy: {acc} | Delta: {delta} | Maximum Accuracy: {max_acc}')
 
             # If the difference is smaller than 10e-4 or iterations are finished
             if delta < 0.0001 or t == n_iterations:
                 # Replaces current class with the best OPF
                 self = best_opf
-
-                logger.info(
-                    f'Best classifier has been learned over iteration {best_t+1}.')
 
                 # Breaks the loop
                 break
@@ -476,8 +453,6 @@ class SupervisedOPF(OPF):
 
         """
 
-        logger.info('Pruning classifier ...')
-
         # Fits training data into the classifier
         self.fit(X_train, Y_train)
 
@@ -489,7 +464,6 @@ class SupervisedOPF(OPF):
 
         # For every possible iteration
         for t in range(n_iterations):
-            logger.info(f'Running iteration {t+1}/{n_iterations} ...')
 
             # Creating temporary lists
             X_temp, Y_temp = [], []
@@ -513,7 +487,6 @@ class SupervisedOPF(OPF):
             # Calculating accuracy
             acc = g.opf_accuracy(Y_val, preds)
 
-            logger.info(f'Current accuracy: {acc}.')
 
         # Gathering final number of nodes
         final_nodes = self.subgraph.n_nodes
@@ -521,4 +494,3 @@ class SupervisedOPF(OPF):
         # Calculating pruning ratio
         prune_ratio = 1 - final_nodes / initial_nodes
 
-        logger.info(f'Prune ratio: {prune_ratio}.')

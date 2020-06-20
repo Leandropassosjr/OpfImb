@@ -9,9 +9,6 @@ from opf.core.heap import Heap
 from opf.core.opf import OPF
 from opf.subgraphs.knn import KNNSubgraph
 
-logger = l.get_logger(__name__)
-
-
 class UnsupervisedOPF(OPF):
     """An UnsupervisedOPF which implements the unsupervised version of OPF classifier.
 
@@ -31,8 +28,6 @@ class UnsupervisedOPF(OPF):
 
         """
 
-        logger.info('Overriding class: OPF -> UnsupervisedOPF.')
-
         # Override its parent class with the receiving arguments
         super(UnsupervisedOPF, self).__init__(
             distance=distance, pre_computed_distance=pre_computed_distance)
@@ -42,8 +37,6 @@ class UnsupervisedOPF(OPF):
 
         # Defining the maximum `k` value for cutting the subgraph
         self.max_k = max_k
-
-        logger.info('Class overrided.')
 
     @property
     def min_k(self):
@@ -263,9 +256,6 @@ class UnsupervisedOPF(OPF):
 
         """
 
-        logger.debug(
-            f'Calculating the best minimum cut within [{min_k}, {max_k}] ...')
-
         # Calculates the maximum possible distances
         max_distances = self.subgraph.create_arcs(
             max_k, self.distance_fn, self.pre_computed_distance, self.pre_distances)
@@ -315,8 +305,6 @@ class UnsupervisedOPF(OPF):
         self.subgraph.calculate_pdf(
             best_k, self.distance_fn, self.pre_computed_distance, self.pre_distances)
 
-        logger.debug(f'Best: {best_k} | Minimum cut: {min_cut}.')
-
     def fit(self, X_train, Y_train=None):
         """Fits data in the classifier.
 
@@ -326,7 +314,6 @@ class UnsupervisedOPF(OPF):
 
         """
 
-        logger.info('Clustering with classifier ...')
 
         # Initializing the timer
         start = time.time()
@@ -357,10 +344,6 @@ class UnsupervisedOPF(OPF):
         # Calculating training task time
         train_time = end - start
 
-        logger.info('Classifier has been clustered with.')
-        logger.info(f'Number of clusters: {self.subgraph.n_clusters}.')
-        logger.info(f'Clustering time: {train_time} seconds.')
-
     def predict(self, X_val):
         """Predicts new data using the pre-trained classifier.
 
@@ -381,8 +364,6 @@ class UnsupervisedOPF(OPF):
         if not self.subgraph.trained:
             # If not, raises an BuildError
             raise e.BuildError('Classifier has not been properly clustered')
-
-        logger.info('Predicting data ...')
 
         # Initializing the timer
         start = time.time()
@@ -489,9 +470,6 @@ class UnsupervisedOPF(OPF):
         # Calculating prediction task time
         predict_time = end - start
 
-        logger.info('Data has been predicted.')
-        logger.info(f'Prediction time: {predict_time} seconds.')
-
         return preds, clusters
 
     def propagate_labels(self):
@@ -499,7 +477,6 @@ class UnsupervisedOPF(OPF):
 
         """
 
-        logger.info('Assigning predicted labels from clusters ...')
 
         # For every possible node
         for i in range(self.subgraph.n_nodes):
@@ -516,4 +493,3 @@ class UnsupervisedOPF(OPF):
                 # Apply the predicted label as the root's label
                 self.subgraph.nodes[i].predicted_label = self.subgraph.nodes[root].label
 
-        logger.info('Labels assigned.')
