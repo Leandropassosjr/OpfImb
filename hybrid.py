@@ -18,10 +18,9 @@ def perform_under(**kwargs):
 	f = kwargs['fold']
 	ds = kwargs['ds']
 	valid = kwargs['valid'] 
-	k_max = kwargs['k_max']
 
 	start_time = time()
-	all_x, all_y = hybrid_obj.fit_resample( X, y, k_max, valid)
+	all_x, all_y = hybrid_obj.fit_resample( X, y, valid)
 	end_time = time() - start_time
 
 	approach = hybrid_obj.__class__.__name__ 
@@ -40,9 +39,9 @@ folds = np.arange(1,2)
 k_max = [5,10,20,30,40,50]
 
 # Objects for hybrid approach
-us1_o2pf = US1O2PF()
-us2_o2pf = US2O2PF()
-us3_o2pf = US3O2PF()
+us1_o2pf = US1O2PF(k_max=k_max)
+us2_o2pf = US2O2PF(k_max=k_max)
+us3_o2pf = US3O2PF(k_max=k_max)
 
 for dsds in range(len(datasets)):
 	ds = datasets[dsds]
@@ -67,10 +66,10 @@ for dsds in range(len(datasets)):
                 
 	
 		#1st variant: remove samples from majority class with negative scores  
-		perform_under(hybrid_obj=us1_o2pf, X=X, y=Y, X_test=X_test, y_test=Y_test, fold=f, ds=ds,valid=valid, k_max=k_max)          
+		perform_under(hybrid_obj=us1_o2pf, X=X, y=Y, X_test=X_test, y_test=Y_test, fold=f, ds=ds,valid=valid)          
 
 	   	#2st variant: remove samples from majority class with negative or zero scores
-		perform_under(hybrid_obj=us2_o2pf,  X=X, y=Y, X_test=X_test, y_test=Y_test, fold=f, ds=ds,valid=valid, k_max=k_max)         
+		perform_under(hybrid_obj=us2_o2pf,  X=X, y=Y, X_test=X_test, y_test=Y_test, fold=f, ds=ds,valid=valid)         
 	
 		#3st variant: remove all samples with negative
-		perform_under(hybrid_obj=us3_o2pf, X=X, y=Y, X_test=X_test, y_test=Y_test, fold=f, ds=ds,valid=valid, k_max=k_max)   
+		perform_under(hybrid_obj=us3_o2pf, X=X, y=Y, X_test=X_test, y_test=Y_test, fold=f, ds=ds,valid=valid)   

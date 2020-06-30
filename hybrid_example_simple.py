@@ -19,10 +19,9 @@ else:
 	X = train[:,:-1]
 	y = train[:,-1].astype(int)
 
-hybrid_obj = US1O2PF()
+hybrid_obj = US1O2PF(k_max=[int(sys.argv[2])])
 
-k_max = [int(sys.argv[2])]
-X_res, y_res = hybrid_obj.fit_resample( X, y, k_max, valid)
+X_res, y_res = hybrid_obj.fit_resample( X, y, valid)
 
 path = 'data'
 common = COMMON()

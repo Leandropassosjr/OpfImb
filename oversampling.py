@@ -38,6 +38,7 @@ def perform_over(**kwargs):
     common.saveResults(all_x, all_y, X_test, y_test, ds, f, approach, o2pf_obj.min_class_label, end_time, 'Results',best_k)
 
 #datasets = ['vertebral_column', 'diagnostic','indian_liver']
+
 datasets = ['vertebral_column']
 #paper uses 20 folds, so the next line runs as follows:
 folds = np.arange(1,2)
@@ -76,6 +77,7 @@ for dsds in range(len(datasets)):
             os.makedirs(pathDataset)   
 
         #main approach: generate samples from minority class until balancing the dataset
+
         perform_over(o2pf_obj = o2pf, X = X,y = y, X_valid = X_valid, y_valid = y_valid, X_test = X_test, y_test = y_test,
             ds = ds, f = f, k_max=k_max)
 

@@ -42,7 +42,6 @@ Results:
  - result_folder/OpfImb_variant_name/dataset_name/fold_number/validation.txt
 	- validation set results over fold, where each line denotes a evaluated k_max. Follows the pattern: best_k,accuracy,recall,f1,execution_time
 
-
 OPF code inspired in the OPFYTHON lib:
  - https://github.com/gugarosa/opfython
 
