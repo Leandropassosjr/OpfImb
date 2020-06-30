@@ -21,7 +21,8 @@ else:
 
 hybrid_obj = US1O2PF()
 
-X_res, y_res = hybrid_obj.fit_resample( X, y, int(sys.argv[2]), valid)
+k_max = [int(sys.argv[2])]
+X_res, y_res = hybrid_obj.fit_resample( X, y, k_max, valid)
 
 path = 'data'
 common = COMMON()

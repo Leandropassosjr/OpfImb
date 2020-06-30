@@ -22,7 +22,7 @@ class OpfUS4(US):
 		output_negatives = output[output[:,2]<0]
 
 		output_negatives_major_zero = output_negatives[output_negatives[:,1]==majority_class]
-		output_negatives_major_zero = output_negatives_major_zero[output_negatives_major_zero[:,2]<=0]
+		output_negatives_major_zero = output_negatives_major_zero[output_negatives_major_zero[:,2]<=0].astype(int)
 
 		X_train = np.delete(X, output_negatives_major_zero[:,0],0)
 		y_train = np.delete(Y, output_negatives_major_zero[:,0])

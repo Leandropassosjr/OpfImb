@@ -30,7 +30,7 @@ class OpfUS(US):
 		output_majority_ordered = output_majority[order,:]
 
 		# remove samples
-		output_to_remove = output_majority_ordered[:n_samples_to_remove,:]
+		output_to_remove = output_majority_ordered[:n_samples_to_remove,:].astype(int)
 		X_train = np.delete(X, output_to_remove[:,0],0)
 		y_train = np.delete(Y, output_to_remove[:,0])
 

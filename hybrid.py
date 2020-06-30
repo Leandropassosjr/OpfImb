@@ -37,7 +37,7 @@ datasets = ['vertebral_column']
 #paper uses 20 folds, so the next line runs as follows:
 #folds = np.arange(1,21)
 folds = np.arange(1,2)
-k_max = 5
+k_max = [5,10,20,30,40,50]
 
 # Objects for hybrid approach
 us1_o2pf = US1O2PF()
