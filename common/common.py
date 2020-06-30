@@ -32,7 +32,8 @@ class COMMON():
 		for kk in range(len(k_max)): 
 			k = k_max[kk]
 			start_time = time()
-			x_train, y_train = obj.fit_resample(X, y, k)                 
+			obj.k_max = k
+			x_train, y_train = obj.fit_resample(X, y)                 
 			accuracy, recall, f1, y_pred= self.classify(x_train,y_train, X_valid, y_valid, obj.min_class_label,)
 			end_time = time() -start_time
 

@@ -14,28 +14,29 @@ from time import time
 np.set_printoptions(threshold=sys.maxsize)
 
 def perform_over(**kwargs):
-    o2pf_obj = kwargs['o2pf_obj']
-    X = kwargs['X']
-    y = kwargs['y']
-    X_valid = kwargs['X_valid']
-    y_valid = kwargs['y_valid']
-    X_test = kwargs['X_test']
-    y_test = kwargs['y_test']
-    ds = kwargs['ds']
-    f = kwargs['f']
-    k_max = kwargs['k_max']    
+	o2pf_obj = kwargs['o2pf_obj']
+	X = kwargs['X']
+	y = kwargs['y']
+	X_valid = kwargs['X_valid']
+	y_valid = kwargs['y_valid']
+	X_test = kwargs['X_test']
+	y_test = kwargs['y_test']
+	ds = kwargs['ds']
+	f = kwargs['f']
+	k_max = kwargs['k_max']    
 
-    common = COMMON()
-    approach = o2pf_obj.__class__.__name__
+	common = COMMON()
+	approach = o2pf_obj.__class__.__name__
 
-    best_k = common.optimization(X, y, X_valid, y_valid, o2pf_obj, k_max, ds,f, approach, 'Results')
+	best_k = common.optimization(X, y, X_valid, y_valid, o2pf_obj, k_max, ds,f, approach, 'Results')
 
-    start_time = time()
-    all_x, all_y = o2pf_obj.fit_resample( X, y, best_k)
-    end_time = time() -start_time
+	start_time = time()
+	o2pf_obj.k_max = best_k
+	all_x, all_y = o2pf_obj.fit_resample( X, y)
+	end_time = time() -start_time
 
-    common.saveDataset(all_x, all_y, pathDataset, approach)    
-    common.saveResults(all_x, all_y, X_test, y_test, ds, f, approach, o2pf_obj.min_class_label, end_time, 'Results',best_k)
+	common.saveDataset(all_x, all_y, pathDataset, approach)    
+	common.saveResults(all_x, all_y, X_test, y_test, ds, f, approach, o2pf_obj.min_class_label, end_time, 'Results',best_k)
 
 #datasets = ['vertebral_column', 'diagnostic','indian_liver']
 

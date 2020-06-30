@@ -62,9 +62,6 @@ for dsds in range(len(datasets)):
 		if not os.path.exists(pathDataset):
 			os.makedirs(pathDataset)   
 
-
-                
-	
 		#1st variant: remove samples from majority class with negative scores  
 		perform_under(hybrid_obj=us1_o2pf, X=X, y=Y, X_test=X_test, y_test=Y_test, fold=f, ds=ds,valid=valid)          
 
