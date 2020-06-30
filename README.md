@@ -34,6 +34,14 @@ Examples:
  	- python hybrid.py;
  	- python hybrid_example_simple.py data/vertebral_column/1/train.txt 20 data/vertebral_column/1/valid.txt
 
+Results:
+ - result_folder/OpfImb_variant_name/dataset_name/fold_number/pred.txt
+	- testing set predicted labels over fold
+ - result_folder/OpfImb_variant_name/dataset_name/fold_number/results.txt
+	- testing set results over fold. Follows the pattern: best_k,accuracy,recall,f1,execution_time
+ - result_folder/OpfImb_variant_name/dataset_name/fold_number/validation.txt
+	- validation set results over fold, where each line denotes a evaluated k_max. Follows the pattern: best_k,accuracy,recall,f1,execution_time
+
 OPF code inspired in the OPFYTHON lib:
  - https://github.com/gugarosa/opfython
 
