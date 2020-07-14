@@ -51,6 +51,17 @@ class COMMON():
 			print('Validation:')
 			print('    {}/validation.txt'.format(path))
 		return k_best
+		
+	def saveTimeOnly(self,  ds,f, approach, exec_time, path_output):
+
+		path = '{}/{}/{}/{}'.format(path_output,approach,ds,f)
+		if not os.path.exists(path):
+		    os.makedirs(path)
+
+		time =[exec_time]
+		np.savetxt('{}/time.txt'.format(path), time, fmt='%.5f')
+		print('Time:')
+		print('    {}/time.txt'.format(path))
 
 	def saveResults(self, X_train,Y_train, X_test, Y_test,  ds,f, approach, minority_class, exec_time, path_output,k_max=0):
 

@@ -17,7 +17,6 @@ class HYBRID(metaclass=abc.ABCMeta):
 		X_res, y_res = us_object.fit_resample( X, y, valid)
 		self.min_class_label = us_object.min_class_label
 
-		print(self.k_max)
 		if valid is not None:
 			X_valid = valid[:,:-1]
 			y_valid = valid[:,-1].astype(np.int) 
