@@ -92,16 +92,30 @@ class OS(metaclass=abc.ABCMeta):
 		)
 
 		new_samples = []
-		for i, gp in enumerate(gaussian_params):
-		    n_new_samples = int(np.round(generate_n * gp.n / available_samples))
-		    if n_new_samples < 1:
-		        continue
+		max_gp_n = 0
+		max_gp_index = -1
+		for i, gp in enumerate(gaussian_params):		
+			if max_gp_n<gp.n:
+				max_gp_n = gp.n
+				max_gp_index = i
+	
+			n_new_samples = int(np.round(generate_n * gp.n / available_samples))
+			if n_new_samples < 1:
+				continue
 
-		    new_samples.append(sampling_fn(
-		        gp,
-		        n_new_samples,
-		        X[gp.sample_ids]
-		    ))
+			new_samples.append(sampling_fn(
+			    gp,
+			    n_new_samples,
+			    X[gp.sample_ids]
+			))
+		diff = generate_n-len(new_samples)		
+		if diff>0:
+			gp = gaussian_params[max_gp_index]
+			new_samples.append(sampling_fn(
+			    gp,
+			    diff,
+			    X[gp.sample_ids]
+			))			
 
 		return new_samples
 
