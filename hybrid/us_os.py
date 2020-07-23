@@ -25,7 +25,7 @@ class HYBRID(metaclass=abc.ABCMeta):
 		else:
 			best_k = self.k_max[0]
 		o2pf_.k_max = best_k
-	
+		
 		all_x, all_y = o2pf_.fit_resample( X_res, y_res)   
 
 		return all_x, all_y
