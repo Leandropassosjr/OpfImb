@@ -4,10 +4,20 @@ from opf.models.supervised import SupervisedOPF
 import numpy as np
 from time import time
 import os
+import pickle
 
 class COMMON():
     def __init__(self):
         self.opfSup = SupervisedOPF(distance='log_squared_euclidean', pre_computed_distance=None)
+        
+    def save_models(self, path, approach, iteration, classifier):
+        # Create dir if it does not exists
+        path_model = '{}/{}'.format(path,iteration)
+        if (not os.path.exists(path_model)):
+            os.makedirs(path_model)
+        
+        file_name = os.path.join(path_model, approach+'.sav') # Get the name of the model
+        pickle.dump(classifier, open(file_name, 'wb')) # save the model
 
     def classify(self, x_train,y_train, x_valid, y_valid, minority_class):
         # Training the OPF                
@@ -63,7 +73,7 @@ class COMMON():
         print('Time:')
         print('    {}/time.txt'.format(path))
 
-    def saveResults(self, X_train,Y_train, X_test, Y_test,  ds,f, approach, minority_class, exec_time, path_output,k_max=0, computeTime = False):
+    def saveResults(self, X_train,Y_train, X_test, Y_test,  ds,f, approach, minority_class, exec_time, path_output, k_max=0, computeTime = False, path_models='Models', save_models=False):
 
         path = '{}/{}/{}/{}'.format(path_output,approach,ds,f)
         if not os.path.exists(path):
@@ -83,6 +93,12 @@ class COMMON():
         np.savetxt('{}/results.txt'.format(path), results_print, fmt='%d,%.5f,%.5f,%.5f,%.5f')
         print('Results:')
         print('    {}/results.txt'.format(path))
+        
+        if save_models:        
+            path_models = '{}/{}/{}/{}'.format(path_models,approach,ds,f)
+            if not os.path.exists(path_models):
+                os.makedirs(path_models)
+            self.save_models(path_models, approach, f, self.opfSup)
 
     def saveDataset(self, X_train,Y_train, pathDataset,approach):
         DS = np.insert(X_train,len(X_train[0]),Y_train , axis=1)
