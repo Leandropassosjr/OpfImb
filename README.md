@@ -1,6 +1,7 @@
 ## OpfImb
 
-Code from ["Passos, L. A., Jodas, D. S., Ribeiro, L. C., Akio, M., de Souza, A. N., & Papa, J. P. (2022). **Handling imbalanced datasets through Optimum-Path Forest.** Knowledge-Based Systems, 108445.](https://doi.org/10.1016/j.knosys.2022.108445)
+Code from:
+["Passos, L. A., Jodas, D. S., Ribeiro, L. C., Akio, M., de Souza, A. N., & Papa, J. P. (2022). **Handling imbalanced datasets through Optimum-Path Forest.** Knowledge-Based Systems, 108445.](https://doi.org/10.1016/j.knosys.2022.108445)
 
 ["Passos, L. A., Jodas, D. S., Ribeiro, L. C., Moreira, T., & Papa, J. P. (2020). **O$^2$PF: Oversampling via Optimum-Path Forest for Breast Cancer Detection.** IEEE 33rd International Symposium on Computer-Based Medical Systems (CBMS), 2020, pp. 498-503](https://ieeexplore.ieee.org/abstract/document/9183010)
 
