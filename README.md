@@ -1,4 +1,11 @@
-# OpfImb
+## OpfImb
+
+Code from ["Passos, L. A., Jodas, D. S., Ribeiro, L. C., Akio, M., de Souza, A. N., & Papa, J. P. (2022). **Handling imbalanced datasets through Optimum-Path Forest.** Knowledge-Based Systems, 108445.](https://doi.org/10.1016/j.knosys.2022.108445)
+
+["Passos, L. A., Jodas, D. S., Ribeiro, L. C., Moreira, T., & Papa, J. P. (2020). **O$^2$PF: Oversampling via Optimum-Path Forest for Breast Cancer Detection.** IEEE 33rd International Symposium on Computer-Based Medical Systems (CBMS), 2020, pp. 498-503](https://ieeexplore.ieee.org/abstract/document/9183010)
+
+
+
 OPFImb is an Optimum-Path Forest-based library created for handling the problem of imbalanced datasets. OPFImb was developed to be simple and easy-to-use for users who are familiarized with existing frameworks which tackle the same research issue that often represent a problem in the context of classification tasks. Our library is composed of functions that handle either oversampling or undersampling of imbalanced datasets by using a range of variants designed to specific aspects of the data distribution under analysis. 
 
 For the oversampling procedure, synthetic samples are created using a Gaussian distribution computed through the mean value and the covariance of the samples within the clusters of the minority class samples generated using the Unsupervised Optimum-Path Forest (OPF) model. Regarding the undersampling, Supervised learning by OPF is employed to assign a score for each training sample that correct conquers an instance of the testing set. Training samples with zeros or negative scores are candidates to be removed from the training set.
@@ -46,4 +53,4 @@ OPF code inspired in the OPFYTHON lib:
  - https://github.com/gugarosa/opfython
 
 Paper describing the code:
- - Handling Imbalanced Datasets Through Optimum-Path Forest (Submitted to journal TPAMI).
+ - Handling Imbalanced Datasets Through Optimum-Path Forest (https://doi.org/10.1016/j.knosys.2022.108445).
